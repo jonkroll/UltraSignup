@@ -1,0 +1,25 @@
+# os x finder
+.DS_Store
+
+# xcode 3
+*.mode1v3
+*.pbxuser
+
+# xcode 4
+xcuserdata
+xcworkspace
+
+# svn
+.svn
+
+# build directory
+build/
+
+# some artifacts
+*.o
+*.lev
+
+
+# directory for temprary stuff
+tmp/
+

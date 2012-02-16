@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="Xcode"> 
+
+    <wpt lat="37.331705" lon="-122.030237">
+         <name>Cupertino</name>
+	</wpt> 
+    <wpt lat="45.49939" lon="9.12114">
+        <name>Milano</name>
+    </wpt>
+</gpx>
