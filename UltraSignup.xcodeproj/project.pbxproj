@@ -58,7 +58,6 @@
 		6E8A44D914C638270000742A /* UIButtonBarSettings.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E8A44D814C638270000742A /* UIButtonBarSettings.png */; };
 		6E8A4A1514C5866200931122 /* UIButtonBarSearch.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E8A4A1414C5866200931122 /* UIButtonBarSearch.png */; };
 		6E8A4A1B14C5879700931122 /* UIButtonBarHome.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E8A4A1A14C5879700931122 /* UIButtonBarHome.png */; };
-		6E9E05D914AD11D9008B2E89 /* NSString+UltraSignup.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9E05D814AD11D9008B2E89 /* NSString+UltraSignup.m */; };
 		6E9E17BD14AC3D6A00254AC0 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E9E17BB14AC3D2A00254AC0 /* libFlurryAnalytics.a */; };
 		6E9E17BF14AC3E1100254AC0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E9E17BE14AC3E1100254AC0 /* CoreLocation.framework */; };
 		6EA4078314B6D7AA00FD2475 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EA4077F14B6D7AA00FD2475 /* play.png */; };
@@ -177,8 +176,6 @@
 		6E8A44D814C638270000742A /* UIButtonBarSettings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIButtonBarSettings.png; sourceTree = "<group>"; };
 		6E8A4A1414C5866200931122 /* UIButtonBarSearch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIButtonBarSearch.png; sourceTree = "<group>"; };
 		6E8A4A1A14C5879700931122 /* UIButtonBarHome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIButtonBarHome.png; sourceTree = "<group>"; };
-		6E9E05D714AD11D9008B2E89 /* NSString+UltraSignup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UltraSignup.h"; sourceTree = "<group>"; };
-		6E9E05D814AD11D9008B2E89 /* NSString+UltraSignup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UltraSignup.m"; sourceTree = "<group>"; };
 		6E9E17B814AC3CBC00254AC0 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlurryAnalytics.h; path = FlurryAnalytics/FlurryAnalytics.h; sourceTree = "<group>"; };
 		6E9E17BB14AC3D2A00254AC0 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurryAnalytics.a; path = FlurryAnalytics/libFlurryAnalytics.a; sourceTree = "<group>"; };
 		6E9E17BE14AC3E1100254AC0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -491,8 +488,6 @@
 				6E14B82A140ED51400AC38D7 /* Settings.h */,
 				6E709D5214CA94F0000B56E1 /* JKBorderedLabel.h */,
 				6E709D5314CA94F0000B56E1 /* JKBorderedLabel.m */,
-				6E9E05D714AD11D9008B2E89 /* NSString+UltraSignup.h */,
-				6E9E05D814AD11D9008B2E89 /* NSString+UltraSignup.m */,
 				6EA6D67614AA5A9800498C97 /* NSDate+UltraSignup.h */,
 				6EA6D67714AA5A9800498C97 /* NSDate+UltraSignup.m */,
 				6E1F62021411E7DB007FF41E /* UltraSignupAppDelegate.h */,
@@ -563,7 +558,7 @@
 		6EE2C7E313C060290061EE92 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = Optionetics;
 			};
 			buildConfigurationList = 6EE2C7E613C060290061EE92 /* Build configuration list for PBXProject "UltraSignup" */;
@@ -662,7 +657,6 @@
 				6EA5736E14A56210000535A5 /* SBJsonUTF8Stream.m in Sources */,
 				6EA5736F14A56210000535A5 /* SBJsonWriter.m in Sources */,
 				6EA6D67814AA5A9900498C97 /* NSDate+UltraSignup.m in Sources */,
-				6E9E05D914AD11D9008B2E89 /* NSString+UltraSignup.m in Sources */,
 				6EE6AC6914AE1F3B007E2166 /* NSDataAdditions.m in Sources */,
 				6EE6AC6A14AE1F3B007E2166 /* RXMLElement.m in Sources */,
 				6EE6AC6B14AE1F3B007E2166 /* TBXML.m in Sources */,
@@ -748,7 +742,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UltraSignup/UltraSignup-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "UltraSignup/UltraSignup-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -766,7 +760,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UltraSignup/UltraSignup-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "UltraSignup/UltraSignup-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -805,7 +799,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UltraSignup/UltraSignup-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "UltraSignup/UltraSignup-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;

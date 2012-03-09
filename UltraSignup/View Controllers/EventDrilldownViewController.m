@@ -13,29 +13,26 @@
 
 @implementation EventDrilldownViewController
 
-@synthesize eventName;
+@synthesize eventName = _eventName;
+@synthesize eventDatesOrDistancesArray = _eventDatesOrDistancesArray;
 
-- (id)initWithStyle:(UITableViewStyle)style withEventDistances:(NSMutableArray*)eventDistances
+- (id)initWithStyle:(UITableViewStyle)style withEventDistances:(NSArray*)eventDistances
 {
     self = [super initWithStyle:style];
     if (self) {
         drilldownType = EVENT_DRILLDOWN_DISTANCES;
-        eventDatesOrDistancesArray = eventDistances;
-        [eventDatesOrDistancesArray retain];
-        
-        //self.navigationItem.prompt = @"Hello World";
+        self.eventDatesOrDistancesArray = eventDistances;
     }
     
     return self;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style withEventDates:(NSMutableArray*)eventDates
+- (id)initWithStyle:(UITableViewStyle)style withEventDates:(NSArray*)eventDates
 {
     self = [super initWithStyle:style];
     if (self) {
         drilldownType = EVENT_DRILLDOWN_DATES;
-        eventDatesOrDistancesArray = eventDates;
-        [eventDatesOrDistancesArray retain];
+        self.eventDatesOrDistancesArray = eventDates;
     }
     return self;
 }
@@ -87,7 +84,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [eventDatesOrDistancesArray count];
+    return [self.eventDatesOrDistancesArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -104,14 +101,14 @@
         {
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"MMM d, YYYY"];            
-            NSDictionary* eventDate = [eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
+            NSDictionary* eventDate = [self.eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
             cell.textLabel.text = [dateFormatter stringFromDate:[NSDate dateFromJSONString:[eventDate objectForKey:@"event_date"]]];
             [dateFormatter release];
             break;
         }
         case EVENT_DRILLDOWN_DISTANCES :
         {
-            NSDictionary* eventDist = [eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
+            NSDictionary* eventDist = [self.eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
             cell.textLabel.text = [eventDist objectForKey:@"distance"];
             break;
         }
@@ -141,8 +138,8 @@
         case EVENT_DRILLDOWN_DATES : 
         {
             
-            NSDictionary* eventDate = (NSDictionary*)[eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
-            NSMutableArray* eventDistances = (NSMutableArray*)[eventDate objectForKey:@"vwMobileEventDistances"];
+            NSDictionary* eventDate = (NSDictionary*)[self.eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
+            NSArray* eventDistances = (NSArray*)[eventDate objectForKey:@"vwMobileEventDistances"];
 
             if ([eventDistances count] == 1) {
                 NSDictionary *eventDist = (NSDictionary*)[eventDistances objectAtIndex:0];
@@ -160,7 +157,7 @@
         }
         case EVENT_DRILLDOWN_DISTANCES :
         {
-            NSDictionary* eventDist = (NSDictionary*)[eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
+            NSDictionary* eventDist = (NSDictionary*)[self.eventDatesOrDistancesArray objectAtIndex:[indexPath row]];
             vc = [[ResultsViewController alloc] initWithNibName:@"ResultsViewController"
                                               withEventDistance:eventDist 
                                                          bundle:nil]; 

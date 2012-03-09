@@ -22,18 +22,13 @@
 @synthesize eventDistance;
 @synthesize tableView = _tableView;
 @synthesize resultsFilter;
-
 @synthesize resultsArray;
 @synthesize filteredResultsArray;
-
 @synthesize eventDistanceMasthead = _eventDistanceMasthead;
-
 @synthesize labelEventName = _labelEventName;
 @synthesize labelEventLocation = _labelEventLocation;
 @synthesize labelEventDateDistance = _labelEvenDatetDistance;
-
 @synthesize activeRequest;
-
 @synthesize masthead = _masthead;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil 
@@ -411,7 +406,7 @@
 }
 
 
-#pragma mark - ASIHttpRequest delegate
+#pragma mark - ASIHTTPRequest delegate
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {      

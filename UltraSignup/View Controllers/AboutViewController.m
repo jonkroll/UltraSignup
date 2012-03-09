@@ -6,29 +6,13 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "Settings.h"
 #import "AboutViewController.h"
 #import "SearchViewController.h"
 #import "ASIDownloadCache.h"
+#import "Settings.h"
 
-#define kUltraSignupLightGreen [UIColor colorWithRed:157.0 / 255 green:160.0 / 255 blue:57.0 / 255 alpha:1.0]
 
 @implementation AboutViewController
-
--(void) showEmailModalView {
-    
-    MFMailComposeViewController *mcvc = [[MFMailComposeViewController alloc] init];
-    mcvc.mailComposeDelegate = self;
-    mcvc.navigationBar.tintColor = kUltraSignupColor;
-    mcvc.title = @"Send Email";
-    [mcvc setSubject:@"Ultra Signup iPhone App"];
-    //[mcvc setMessageBody:@"\n\n\nSent from Ultra Signup iPhone App" isHTML:YES];
-    [mcvc setToRecipients:[NSArray arrayWithObject:kUltraSignupEmailAddress]];
-    
-    [self presentModalViewController:mcvc animated:YES];
-    [mcvc release];
-    
-}
 
 #pragma mark - View lifecycle
 
@@ -71,6 +55,8 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark -
+
 - (void)segmentAction:(UISegmentedControl*)sender 
 {
     switch ([sender selectedSegmentIndex])
@@ -90,6 +76,70 @@
     }
 }
 
+- (IBAction)pushDisclaimer:(NSString*)disclaimerHTML withTitle:(NSString*)title
+{
+    // create a view controller to hold the web view
+    UIViewController *vc = [[UIViewController alloc] init];
+    
+    JKBorderedLabel *myLabel = [[JKBorderedLabel alloc] initWithString:title];
+    vc.navigationItem.titleView = myLabel;
+    [myLabel release];    
+    
+    // create a web view
+    CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
+    webFrame.origin.y -= 20; // shift display up so it covers the default open space from the content view
+    webFrame.size.height -= 40; 
+    
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:webFrame];
+    [webView loadHTMLString:disclaimerHTML baseURL:nil];
+    [webView setBackgroundColor:[UIColor whiteColor]];
+    
+    [[vc view] addSubview:webView];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    [vc release];
+    [webView release];
+}
+
+
+- (IBAction)showEmailModalView
+{
+    if([MFMailComposeViewController canSendText]) {
+        
+        MFMailComposeViewController *mcvc = [[MFMailComposeViewController alloc] init];
+        mcvc.mailComposeDelegate = self;
+        mcvc.navigationBar.tintColor = kUltraSignupColor;
+        mcvc.title = @"Send Email";
+        [mcvc setSubject:@"Ultra Signup iPhone App"];
+        //[mcvc setMessageBody:@"\n\n\nSent from Ultra Signup iPhone App" isHTML:YES];
+        [mcvc setToRecipients:[NSArray arrayWithObject:kUltraSignupEmailAddress]];
+        
+        [self presentModalViewController:mcvc animated:YES];
+        [mcvc release];
+    } else {
+        UIAlertView *alert =
+        [[UIAlertView alloc] initWithTitle:@"Unable to send mail"
+                                   message:@"Mail sending in unavailable." 
+                                  delegate:self 
+                         cancelButtonTitle:@"Cancel"
+                         otherButtonTitles:nil];
+        [alert show];        
+    }
+}
+
+
+- (IBAction)showClearCacheAlertView
+{
+    UIAlertView *alert =
+    [[UIAlertView alloc] initWithTitle:@"Clear Cached Data"
+                               message:@"Are you sure you want to clear all cached data for this app?" 
+                              delegate:self 
+                     cancelButtonTitle:@"Cancel"
+                     otherButtonTitles:@"OK",nil];
+    [alert show];
+}
+
 
 #pragma mark - Table view data source
 
@@ -102,8 +152,8 @@
 {
     switch(section) {
         case 0: return 3; break;
-        case 1: return 1; break;  // contact ultrasignup button
-        case 2: return 1; break;  // clear cached data buton
+        case 1: return 1; break;  // "contact ultrasignup" button
+        case 2: return 1; break;  // "clear cached data" buton
     }
     return 0;
 }
@@ -123,7 +173,6 @@
             case 1: cell.textLabel.text = @"Terms of Use"; break;
             case 2: cell.textLabel.text = @"Privacy Policy"; break;                
         }
-
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     } else if (indexPath.section == 1) {
@@ -137,59 +186,29 @@
     return cell;
 }
 
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        
-        // create a view controller to hold the web view
-        UIViewController *vc = [[UIViewController alloc] init];
 
-        JKBorderedLabel *myLabel = [[JKBorderedLabel alloc] initWithString:[[[self.tableView cellForRowAtIndexPath:indexPath] textLabel] text]];
-        vc.navigationItem.titleView = myLabel;
-        [myLabel release];
-
-        
-        // create a web view
-        CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
-        webFrame.origin.y -= 20; // shift display up so it covers the default open space from the content view
-        webFrame.size.height -= 40; 
-        
-        UIWebView *webView = [[UIWebView alloc] initWithFrame:webFrame];
-        
         NSString *detailHTML = @"";
         switch (indexPath.row) {
             case 0: detailHTML = kUltraSignupHTMLAbout; break;
             case 1: detailHTML = kUltraSignupHTMLTerms; break;
             case 2: detailHTML = kUltraSignupHTMLPrivacy; break;
         }
-        
-        [webView loadHTMLString:detailHTML baseURL:nil];
-        [webView setBackgroundColor:[UIColor whiteColor]];
-        
-        [[vc view] addSubview:webView];
-        
-        [self.navigationController pushViewController:vc animated:YES];
-        
-        [vc release];
-        [webView release];
-                
+        NSString *title = [[[self.tableView cellForRowAtIndexPath:indexPath] textLabel] text];
+        [self pushDisclaimer:(NSString*)detailHTML withTitle:(NSString*)title];                
     
     } else if (indexPath.section == 1) {
         
         [self showEmailModalView];
+        
     } else if (indexPath.section == 2) {
         
-        // clear cached data
-        UIAlertView *alert =
-        [[UIAlertView alloc] initWithTitle:@"Clear Cached Data"
-                                   message:@"Are you sure you want to clear all cached data for this app?" 
-                                  delegate:self 
-                         cancelButtonTitle:@"Cancel"
-                         otherButtonTitles:@"OK",nil];
-        [alert show];
-        
+        [self showClearCacheAlertView];
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
         
     }
@@ -216,15 +235,15 @@
             
         default:
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email" 
-                                                            message:@"Sending Failed - Unknown Error"
-                                                           delegate:self 
-                                                  cancelButtonTitle:@"OK" 
-                                                  otherButtonTitles: nil];
+            UIAlertView *alert = 
+                [[UIAlertView alloc] initWithTitle:@"Email" 
+                                           message:@"Sending Failed - Unknown Error"
+                                          delegate:self 
+                                 cancelButtonTitle:@"OK" 
+                                 otherButtonTitles: nil];
             [alert show];
             [alert release];
-        }
-            
+        }    
             break;
     }
     [self dismissModalViewControllerAnimated:YES];

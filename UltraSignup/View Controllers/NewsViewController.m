@@ -41,47 +41,61 @@
     [super dealloc];
 }
 
+
 + (NSString*)modifyHTML:(NSString*)html
 {
-    NSMutableString *modified = [NSMutableString stringWithString:html];
     
+    NSString *beginPattern = @"<!-- ===================== BEGIN DOCUMENT CONTENT ===================== -->";
+    NSString *endPattern   = @"<!-- ===================== END DOCUMENT CONTENT ===================== -->";
     
-    // remove any content in HTML between the open body tag and the first <h1> tag
-    NSString *regexPattern = @"<body[^>]*>(.*)<h1>";
-    NSRegularExpression *regex = 
-    [NSRegularExpression regularExpressionWithPattern:regexPattern 
-                                              options:NSRegularExpressionDotMatchesLineSeparators 
-                                                error:nil];
+    NSRange beginPatternRange = [html rangeOfString:beginPattern];
+    NSRange endPatternRange = [html rangeOfString:endPattern];
     
-    NSTextCheckingResult *firstMatch = [regex firstMatchInString:modified
-                                                         options:NSRegularExpressionCaseInsensitive
-                                                           range:NSMakeRange(0, [modified length])];
-    
-    if (firstMatch) {
-        
-        NSString *siteLinkHTML = [modified substringWithRange:[firstMatch rangeAtIndex:1]];
-        
-        [modified deleteCharactersInRange:[firstMatch rangeAtIndex:1]];
-        
-        // now insert the text we removed at the end of the article
-        NSRegularExpression *regex2 = 
-        [NSRegularExpression regularExpressionWithPattern:@"</body>" 
-                                                  options:NSRegularExpressionDotMatchesLineSeparators 
-                                                    error:nil];
-        
-        NSTextCheckingResult *closeBodyMatch = [regex2 firstMatchInString:modified
-                                                                  options:NSRegularExpressionCaseInsensitive
-                                                                    range:NSMakeRange(0, [modified length])];
-        
-        if (closeBodyMatch) {
-            
-            [modified insertString:[NSString stringWithFormat:@"%@<br><br>", siteLinkHTML] 
-                           atIndex:[closeBodyMatch range].location];
-        }
-        
+    if (beginPatternRange.location == NSNotFound || endPatternRange.location == NSNotFound) {
+        return html;
     }
     
-    return modified;
+    int contentLocation = beginPatternRange.location + beginPatternRange.length;
+    int contentLength = endPatternRange.location - contentLocation;
+    
+    NSRange contentRange = NSMakeRange(contentLocation, contentLength);
+    NSString *htmlContent = [html substringWithRange:contentRange];
+    
+
+    // remove articletools div
+    
+    beginPattern = @"<div class=\"articletools\">";
+    endPattern   = @"<div style=\"clear:both\">&nbsp;</div></div>";
+
+    beginPatternRange = [htmlContent rangeOfString:beginPattern];
+    endPatternRange = [htmlContent rangeOfString:endPattern];
+    
+    if (beginPatternRange.location == NSNotFound || endPatternRange.location == NSNotFound) {
+        return htmlContent;
+    }
+    
+    contentLocation = beginPatternRange.location;
+    contentLength = endPatternRange.location + endPatternRange.length -  beginPatternRange.location;
+    
+    contentRange = NSMakeRange(contentLocation, contentLength);
+    
+    NSString *articletoolsDivHTML = [htmlContent substringWithRange:contentRange];
+
+    htmlContent = [htmlContent stringByReplacingOccurrencesOfString:articletoolsDivHTML withString:@""];     
+    
+    // this is a little ghetto - adding this here to make well-formed HTML, since when parsing out the articletools we left an extra close div tag
+    htmlContent = [NSString stringWithFormat:@"<div>%@", htmlContent];
+ 
+    // TODO:  insert link to stylesheet for font, etc
+    
+    
+    htmlContent = [NSString stringWithFormat:@"<style>*{font-family:Helvetica} h1{font-size:16pt;color:green}</style>%@", htmlContent];
+    
+    
+    // TODO:  insert link at bottom to article page on ultrasignup (will open in Safari)
+    
+    
+    return htmlContent;    
 }
 
 
@@ -126,59 +140,8 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    NSString *response = [request responseString];
-    NSString *regexPattern;
-    NSString *html;
-    
-    switch (request.tag) {
-            
-        case 0:
-            // extract print URL from html of the main page using a regular expression
-            // example print url format: "http://www.ultrarunning.com/cgi-bin/moxiebin/bm_tools.cgi?print=1603;s=2_1;site=1"
-            // note: need to use double backslash for escaping in NSString (i.e. not for escaping in regex)
-            
-            regexPattern = @"http:[A-Za-z0-9\\/\\.\\?&:\\-\\_\\=;]*print=[A-Za-z0-9\\/\\.\\?&:\\-\\_\\=;]*"; 
-            
-            NSRegularExpression *regex = 
-                    [NSRegularExpression regularExpressionWithPattern:regexPattern 
-                                                              options:NSRegularExpressionCaseInsensitive 
-                                                                error:nil];
-            
-            NSTextCheckingResult *firstMatch = [regex firstMatchInString:response
-                                                                 options:NSRegularExpressionCaseInsensitive
-                                                                   range:NSMakeRange(0, [response length])];
-            
-            if (firstMatch) {
-                
-                NSString *printURL = [response substringWithRange:[firstMatch range]];
-                NSURL *url = [NSURL URLWithString:printURL];
-            
-                ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
-                [req setDelegate:self];
-                [req setTag:1];
-                [req startAsynchronous];
-                
-                self.activeRequest = req;
-                
-                
-            } else {
-                
-                // could not find print URL
-                
-                // TODO: handle this case
-                
-            }
-            break;
-            
-        case 1:
-     
-            html = [NewsViewController modifyHTML:[request responseString]];
-            
-            [webView loadHTMLString:html baseURL:nil];
-            break;
-            
-    }
-        
+    NSString *html = [[self class] modifyHTML:[request responseString]];
+    [webView loadHTMLString:html baseURL:nil];        
 }
 
 

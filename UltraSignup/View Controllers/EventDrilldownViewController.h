@@ -15,14 +15,14 @@ enum DRILLDOWN_TYPE
 @interface EventDrilldownViewController : UITableViewController
 {
     enum DRILLDOWN_TYPE drilldownType;
-    NSMutableArray *eventDatesOrDistancesArray;
-    
     NSString *_eventName;
+    NSArray *_eventDatesOrDistancesArray;    
 }
 
 @property (nonatomic, retain) NSString *eventName;
+@property (nonatomic, retain) NSArray *eventDatesOrDistancesArray;
 
-- (id)initWithStyle:(UITableViewStyle)style withEventDistances:(NSMutableArray*)eventDistances;
-- (id)initWithStyle:(UITableViewStyle)style withEventDates:(NSMutableArray*)eventDates;
+- (id)initWithStyle:(UITableViewStyle)style withEventDistances:(NSArray*)eventDistances;
+- (id)initWithStyle:(UITableViewStyle)style withEventDates:(NSArray*)eventDates;
 
 @end

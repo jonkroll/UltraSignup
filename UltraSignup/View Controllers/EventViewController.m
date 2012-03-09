@@ -228,7 +228,6 @@
         labelName.text = [self.event objectForKey:@"name"];        
         labelName.font = [UIFont boldSystemFontOfSize:20];
         labelName.backgroundColor = [UIColor clearColor];
-        labelName.tag = 1;
         
         // location
         UILabel *labelLocation = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 280, 20)];
@@ -240,7 +239,6 @@
         labelLocation.text = [NSString stringWithFormat:@"%@ %@%", 
                                 [self.event objectForKey:@"city"], 
                                 [self.event objectForKey:@"state"]];
-        labelLocation.tag = 2;
         
         // country
         UILabel *labelCountry = [[UILabel alloc] initWithFrame:CGRectMake(10, 50, 280, 20)];
@@ -250,14 +248,12 @@
         labelCountry.lineBreakMode = UILineBreakModeTailTruncation;
         labelCountry.backgroundColor = [UIColor clearColor];
         labelCountry.text = [self.event objectForKey:@"country"];
-        labelCountry.tag = 3;
         
         
         // add subviews
         [[cell contentView] addSubview:labelName];
         [[cell contentView] addSubview:labelLocation];
         [[cell contentView] addSubview:labelCountry];
-        //        [[cell contentView] addSubview:labelLatLong];
         
         
         // cleanup
@@ -468,40 +464,7 @@
             
             [self.navigationController pushViewController:registrantsViewController animated:YES];
             [registrantsViewController release];
-             
-            
-            /*
-             // TODO:
-            // handle click on latest results button
-            
-            NSMutableArray* eventDistances = [upcomingDate objectForKey:@"vwMobileEventDistances"];
-            if ([eventDistances count] == 1) {
-                
-                NSDictionary* eventDist = (NSDictionary*)[eventDistances objectAtIndex:0];
-                UIViewController* resultsViewController = [[ResultsViewController alloc] 
-                                                           initWithNibName:@"ResultsViewController"
-                                                           withEventDistance:eventDist 
-                                                           bundle:nil];
-                
-                [self.navigationController pushViewController:resultsViewController animated:YES];
-                [resultsViewController release];
-                
-            } else {
-                
-                // need to go to drilldown controller to pick a distance
-                EventDrilldownViewController* eventDrilldownViewController 
-                = [[EventDrilldownViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                   withEventDistances:eventDistances];
-                
-                
-                eventDrilldownViewController.eventName = [self.event objectForKey:@"name"];
-                [self.navigationController pushViewController:eventDrilldownViewController animated:YES];
-                [eventDrilldownViewController release];
-                
-            }
-
-            */
-            
+                         
         }
     
     } else if (indexPath.section == 1) {
@@ -558,8 +521,6 @@
 
 #pragma mark - ASIHttpRequest delegate
 
-
-
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     NSString *response = [request responseString];
@@ -606,7 +567,6 @@
         }
      }   
  
-
 
     if (startIndexOfEarlierDates > -1) {
         previousDates = [[data subarrayWithRange:NSMakeRange (startIndexOfEarlierDates, numDates-startIndexOfEarlierDates)] retain];
