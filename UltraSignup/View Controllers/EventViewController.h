@@ -8,7 +8,7 @@
 
 #import "ASIHTTPRequest.h"
 
-@interface EventViewController : UITableViewController <UIWebViewDelegate> {
+@interface EventViewController : UITableViewController <UIWebViewDelegate, MKMapViewDelegate> {
 
     NSDictionary *_event;
     UIImage *eventImage;
@@ -41,6 +41,5 @@
 
 - (void)loadResults;
 - (void)showMap;
-//- (void)highlightMap;
 
 @end

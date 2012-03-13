@@ -97,18 +97,22 @@
     MKCoordinateSpan span = MKCoordinateSpanMake(0.5, 0.5);
     MKCoordinateRegion region = MKCoordinateRegionMake(coords, span);
     [map setRegion:region animated:YES];
+    [map setDelegate:self];
     
+
     MKPointAnnotation* pin = [[MKPointAnnotation alloc] init];
     pin.coordinate = coords;
     pin.title = [self.event objectForKey:@"name"];
     pin.subtitle = [NSString stringWithFormat:@"%@ %@",[self.event objectForKey:@"city"],[self.event objectForKey:@"state"]];
+        
     [map addAnnotation:pin];
-    
-    [map selectAnnotation:pin animated:YES];
     [pin release];
+
     
     UIViewController *vc = [[UIViewController alloc] init];
     [vc.view addSubview:map];
+    
+    [map selectAnnotation:pin animated:TRUE];
     
     JKBorderedLabel *myLabel = [[JKBorderedLabel alloc] initWithString:[self.event objectForKey:@"name"]];
     vc.navigationItem.titleView = myLabel;
@@ -612,6 +616,41 @@
             break;
         }
     }
+}
+
+#pragma mark - MKMapViewDelegate
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id < MKAnnotation >)annotation
+{
+    MKPinAnnotationView* pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"location"];
+                                                          
+    if (!pinView) {
+    
+        pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"location"];
+        pinView.pinColor = MKPinAnnotationColorRed;
+        pinView.animatesDrop = YES;
+        pinView.canShowCallout = YES;
+        
+        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [rightButton addTarget:self action:@selector(showInMapApp) forControlEvents:UIControlEventTouchUpInside];
+        pinView.rightCalloutAccessoryView = rightButton;
+        
+    }
+    
+    return pinView;
+}
+
+
+
+- (void)showInMapApp
+{
+    
+    NSString *mapURLString = [NSString stringWithFormat:@"http://maps.google.com/maps?ll=%f,%f&z=8", [[self.event objectForKey:@"latitude"] doubleValue], [[self.event objectForKey:@"longitude"] doubleValue]];
+
+    NSLog(@"mapurl=>%@", mapURLString);
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:mapURLString]];
+    
 }
 
 @end
