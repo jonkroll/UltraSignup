@@ -298,7 +298,7 @@
             // remove old values from cell
             // if we were were using a Nib file for the cell layout we wouldn't need to do this
             for (UIView *view in [cell subviews]) {
-                if ([view isMemberOfClass:[UILabel class]]) { 
+                if ([view isMemberOfClass:[UILabel class]] || [view isMemberOfClass:[UIImageView class]]) { 
                     [view removeFromSuperview];
                 }
             }

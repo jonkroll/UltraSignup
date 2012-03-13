@@ -51,17 +51,9 @@
 
 - (void)showAboutController
 {
-    
     AboutViewController *avc = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-
-    UINavigationController *aboutNavController = [[UINavigationController alloc] initWithRootViewController:avc];
-    
-    aboutNavController.navigationBar.tintColor = kUltraSignupColor;
-    
-    //[self.navigationController pushViewController:avc animated:YES];
-    [self presentModalViewController:aboutNavController animated:YES];
+    [self.navigationController pushViewController:avc animated:YES];
     [avc release]; 
-    [aboutNavController release];
 }
 
 #pragma mark - View lifecycle

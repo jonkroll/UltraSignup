@@ -25,15 +25,7 @@
     self.navigationItem.titleView = logo;
     self.navigationItem.title = @"Back";
     [logo release];
-        
-    // add done button
-    UIBarButtonItem *doneButton = 
-            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone 
-                                                          target:self 
-                                                          action:@selector(dismissModalViewControllerAnimated:)];
-    self.navigationItem.leftBarButtonItem = doneButton;
-    [doneButton release];
-    
+
     // add version label
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 380, 320, 20)];
     versionLabel.numberOfLines = 1;
@@ -105,7 +97,7 @@
 
 - (IBAction)showEmailModalView
 {
-    if([MFMailComposeViewController canSendText]) {
+    //if([MFMailComposeViewController canSendText]) {
         
         MFMailComposeViewController *mcvc = [[MFMailComposeViewController alloc] init];
         mcvc.mailComposeDelegate = self;
@@ -115,9 +107,10 @@
         //[mcvc setMessageBody:@"\n\n\nSent from Ultra Signup iPhone App" isHTML:YES];
         [mcvc setToRecipients:[NSArray arrayWithObject:kUltraSignupEmailAddress]];
         
-        [self presentModalViewController:mcvc animated:YES];
+        [self.navigationController presentModalViewController:mcvc animated:YES];
         [mcvc release];
-    } else {
+    /*
+     } else {
         UIAlertView *alert =
         [[UIAlertView alloc] initWithTitle:@"Unable to send mail"
                                    message:@"Mail sending in unavailable." 
@@ -126,6 +119,7 @@
                          otherButtonTitles:nil];
         [alert show];        
     }
+     */
 }
 
 
