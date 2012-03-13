@@ -52,6 +52,7 @@
 		6E69FC6513FE33080052951C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E69FC6413FE33080052951C /* MessageUI.framework */; };
 		6E709D5414CA94F0000B56E1 /* JKBorderedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E709D5314CA94F0000B56E1 /* JKBorderedLabel.m */; };
 		6E709D5A14CA98F6000B56E1 /* Impact.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E709D5914CA98F6000B56E1 /* Impact.ttf */; };
+		6E71E1FA150F0FF1007B3162 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E71E1F9150F0FF1007B3162 /* photo.png */; };
 		6E805EEC142066CF00FCF635 /* RecentEventsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E805EEB142066CF00FCF635 /* RecentEventsViewController.xib */; };
 		6E89FECA14C6B01D001381FB /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E89FEC914C6B01D001381FB /* SearchViewController.xib */; };
 		6E89FECE14C6B08B001381FB /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E89FECD14C6B08B001381FB /* SearchViewController.m */; };
@@ -169,6 +170,7 @@
 		6E709D5214CA94F0000B56E1 /* JKBorderedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKBorderedLabel.h; sourceTree = "<group>"; };
 		6E709D5314CA94F0000B56E1 /* JKBorderedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKBorderedLabel.m; sourceTree = "<group>"; };
 		6E709D5914CA98F6000B56E1 /* Impact.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Impact.ttf; sourceTree = "<group>"; };
+		6E71E1F9150F0FF1007B3162 /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = photo.png; path = images/photo.png; sourceTree = "<group>"; };
 		6E805EEB142066CF00FCF635 /* RecentEventsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecentEventsViewController.xib; sourceTree = "<group>"; };
 		6E89FEC914C6B01D001381FB /* SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchViewController.xib; path = nibs/SearchViewController.xib; sourceTree = "<group>"; };
 		6E89FECC14C6B08B001381FB /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = "View Controllers/SearchViewController.h"; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 		6E5D1EE813C28B1F00CFCF0F /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6E71E1F9150F0FF1007B3162 /* photo.png */,
 				6EA4078114B6D7AA00FD2475 /* UIButtonBarAction.png */,
 				6E8A4A1A14C5879700931122 /* UIButtonBarHome.png */,
 				6E8A4A1414C5866200931122 /* UIButtonBarSearch.png */,
@@ -616,6 +619,7 @@
 				6E89FECA14C6B01D001381FB /* SearchViewController.xib in Resources */,
 				6EBE5DD914C7F417004960D1 /* Location.gpx in Resources */,
 				6E709D5A14CA98F6000B56E1 /* Impact.ttf in Resources */,
+				6E71E1FA150F0FF1007B3162 /* photo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

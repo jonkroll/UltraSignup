@@ -341,9 +341,20 @@
         if ([result objectForKey:@"age"] != nil && ![[result objectForKey:@"age"] isEqualToString:@"0"]) {
             [categoryText appendString:[result objectForKey:@"age"]];
         }
-        if (![categoryText isEqualToString:@""] && (![[result objectForKey:@"city"] isEqual:[NSNull null]] || ![[result objectForKey:@"state"] isEqual:[NSNull null]] )) {
-            
-            if (![[result objectForKey:@"city"] isEqualToString:@""] || ![[result objectForKey:@"state"] isEqualToString:@""]) {
+        if (![categoryText isEqualToString:@""]) {
+            // show separator dot if there is a city or a state in the location
+            BOOL showSeparator = false;
+            if ([[result objectForKey:@"city"] isKindOfClass:[NSString class]]) {
+                if (![[result objectForKey:@"city"] isEqualToString:@""]) {
+                    showSeparator = true;
+                }
+            }
+            if ([[result objectForKey:@"state"] isKindOfClass:[NSString class]]) {
+                if (![[result objectForKey:@"state"] isEqualToString:@""]) {
+                    showSeparator = true;
+                }
+            }
+            if (showSeparator) {
                 [categoryText appendString:@" • "];
             }
         }
@@ -353,13 +364,15 @@
         if (![[result objectForKey:@"state"] isEqual:[NSNull null]]) {
             [categoryText appendString:[result objectForKey:@"state"]];
         }
+        if (![[participant objectForKey:@"photo"] isEqual:[NSNull null]]) {
+            [categoryText appendString:@" • "];
+        }
         
         UILabel* categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(44,20,220,21)];
         categoryLabel.text = categoryText;
         categoryLabel.font = [UIFont systemFontOfSize:13];
         categoryLabel.textColor = [UIColor lightGrayColor];
         categoryLabel.highlightedTextColor = [UIColor whiteColor];
-        [categoryText release];
     
 
         UILabel* timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(232,0,76,43)];
@@ -367,13 +380,34 @@
         timeLabel.textAlignment = UITextAlignmentRight;
         timeLabel.highlightedTextColor = [UIColor whiteColor];
 
+
+        
+        
         
         [cell addSubview:placeLabel];
         [cell addSubview:nameLabel];
         [cell addSubview:categoryLabel];
         [cell addSubview:timeLabel];   
-    
-   
+
+        
+        if (![[participant objectForKey:@"photo"] isEqual:[NSNull null]]) {
+            
+            // add photo icon
+            
+            CGSize lineTwoSize = [categoryText sizeWithFont:categoryLabel.font constrainedToSize:CGSizeMake(320, 20) lineBreakMode:categoryLabel.lineBreakMode];
+            
+            
+            UIImage *photoImg = [UIImage imageNamed:@"photo.png"];
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((lineTwoSize.width+46),27,7,9)];
+            imgView.alpha = 0.5;
+            imgView.image = photoImg;
+            
+            [cell addSubview:imgView];
+            
+        }
+        
+        
+        [categoryText release];
         [placeLabel release];
         [nameLabel release];
         [categoryLabel release];
