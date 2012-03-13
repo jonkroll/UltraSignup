@@ -102,8 +102,18 @@
         MFMailComposeViewController *mcvc = [[MFMailComposeViewController alloc] init];
         mcvc.mailComposeDelegate = self;
         mcvc.navigationBar.tintColor = kUltraSignupColor;
-        mcvc.title = @"Send Email";
+
+        JKBorderedLabel *myLabel = [[JKBorderedLabel alloc] initWithString:@"Send Mail"];
+        [mcvc.navigationBar addSubview:myLabel];
+        [myLabel release];
+
+        [[[mcvc viewControllers] lastObject] navigationItem].titleView = myLabel;
+        [[mcvc navigationBar] sendSubviewToBack:myLabel];
+    
+    
         [mcvc setSubject:@"Ultra Signup iPhone App"];
+    
+   
         //[mcvc setMessageBody:@"\n\n\nSent from Ultra Signup iPhone App" isHTML:YES];
         [mcvc setToRecipients:[NSArray arrayWithObject:kUltraSignupEmailAddress]];
         

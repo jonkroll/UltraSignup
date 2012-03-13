@@ -6,8 +6,6 @@
 //  Copyright 2011. All rights reserved.
 //
 
-#import "ASIHTTPRequest.h"
-
 @interface RecentEventsViewController : UITableViewController
 {
     NSMutableArray* _recentEvents;    

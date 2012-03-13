@@ -7,7 +7,6 @@
 //
 
 #import "Settings.h"
-#import "ASIHTTPRequest.h"
 #import "PersonViewController.h"
 #import "ResultsViewController.h"
 #import "ASIHTTPRequest.h"
