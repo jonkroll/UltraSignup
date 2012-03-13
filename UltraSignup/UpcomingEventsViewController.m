@@ -83,6 +83,13 @@
              [self.person objectForKey:@"last_name"]];
              
 }
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 64;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -97,17 +104,62 @@
     NSDictionary* eventDist = (NSDictionary*)[theresult objectForKey:@"EventDistance"];
     NSDictionary* eventDate = (NSDictionary*)[eventDist objectForKey:@"vwMobileEventDate"];
     NSDictionary* event     = (NSDictionary*)[eventDate objectForKey:@"vwMobileEvent"];
+
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [event objectForKey:@"name"], [eventDist objectForKey:@"distance"]];
+    // event name
+    UILabel *eventName = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, 280, 20)];
+    eventName.numberOfLines = 1;
+    eventName.lineBreakMode = UILineBreakModeTailTruncation;
+    eventName.text = [NSString stringWithFormat:@"%@ %@", [event objectForKey:@"name"], [eventDist objectForKey:@"distance"]];        
+    eventName.font = [UIFont boldSystemFontOfSize:16];
+    eventName.highlightedTextColor = [UIColor whiteColor];
+    eventName.backgroundColor = [UIColor clearColor];
+    eventName.tag = 1;
     
     
+    // event location
+    NSString* city = @"";
+    if (![[event objectForKey:@"city"] isEqual:[NSNull null]]) {
+        city = [NSString stringWithFormat:@"%@ ", [event objectForKey:@"city"]];
+    }
+    NSString* state = @"";
+    if (![[event objectForKey:@"state"] isEqual:[NSNull null]]) {
+        state = [NSString stringWithFormat:@"%@", [event objectForKey:@"state"]];
+    }
+    UILabel *locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 22, 280, 20)];
+    locationLabel.numberOfLines = 1;
+    locationLabel.lineBreakMode = UILineBreakModeWordWrap;
+    locationLabel.text = [NSString stringWithFormat:@"%@%@", city, state];
+    locationLabel.textColor = [UIColor grayColor];
+    locationLabel.font = [UIFont systemFontOfSize:14];
+    locationLabel.highlightedTextColor = [UIColor whiteColor];
+    locationLabel.backgroundColor = [UIColor clearColor];
+    locationLabel.tag = 2;
+    
+    // event date
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM d, YYYY"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ • %@", 
-                                            [event objectForKey:@"city"], 
-                                            [event objectForKey:@"state"], 
-                                            [dateFormatter stringFromDate:[NSDate dateFromJSONString:[eventDate objectForKey:@"event_date"]]]];
-    [dateFormatter release];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, 280, 20)];
+    dateLabel.numberOfLines = 1;
+    dateLabel.lineBreakMode = UILineBreakModeWordWrap;
+    dateLabel.text = [dateFormatter stringFromDate:[NSDate dateFromJSONString:[eventDate objectForKey:@"event_date"]]];
+    dateLabel.font = [UIFont systemFontOfSize:14];
+    dateLabel.textColor = [UIColor grayColor];
+    dateLabel.highlightedTextColor = [UIColor whiteColor];
+    dateLabel.backgroundColor = [UIColor clearColor];
+    dateLabel.tag = 3;
+    [dateFormatter release];   
+    
+    
+    // add subviews
+    [[cell contentView] addSubview:eventName];
+    [[cell contentView] addSubview:dateLabel];
+    [[cell contentView] addSubview:locationLabel];
+
+    // cleanup
+    [eventName release];
+    [dateLabel release];
+    [locationLabel release];
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
