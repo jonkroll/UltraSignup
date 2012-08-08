@@ -123,7 +123,7 @@
      } else {
         UIAlertView *alert =
         [[UIAlertView alloc] initWithTitle:@"Unable to send mail"
-                                   message:@"Mail sending in unavailable." 
+                                   message:@"Mail sending is unavailable." 
                                   delegate:self 
                          cancelButtonTitle:@"Cancel"
                          otherButtonTitles:nil];

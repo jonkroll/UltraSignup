@@ -422,7 +422,7 @@
             
         case 1:
             if ([self.newsArray count] > 0 ) {
-                title = @"Ultrarunning News";
+                title = @"Ultrarunning.com News";
             } else {
                 title = @"";                    
             }

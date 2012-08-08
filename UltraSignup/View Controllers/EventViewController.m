@@ -240,7 +240,7 @@
         labelLocation.font = [UIFont systemFontOfSize:14];
         labelLocation.lineBreakMode = UILineBreakModeTailTruncation;
         labelLocation.backgroundColor = [UIColor clearColor];
-        labelLocation.text = [NSString stringWithFormat:@"%@ %@%", 
+        labelLocation.text = [NSString stringWithFormat:@"%@ %@", 
                                 [self.event objectForKey:@"city"], 
                                 [self.event objectForKey:@"state"]];
         
