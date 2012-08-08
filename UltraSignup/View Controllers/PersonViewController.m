@@ -37,9 +37,12 @@
         [participant retain];
         
         if (![[participant objectForKey:@"photo"] isEqual:[NSNull null]]) {
-
+            
+            NSString *photoURLString = [[NSString stringWithFormat:@"http://img.ultrasignup.com/%@.jpg",[participant objectForKey:@"photo"]] lowercaseString];
+            
             //fetch photo
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://ultrasignup.com/images/ImgHandler.ashx?id=%@",[participant objectForKey:@"photo"]]];
+            NSURL *url = [NSURL URLWithString:photoURLString];
+            
             ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
 
             //[request setCachePolicy:ASIAskServerIfModifiedWhenStaleCachePolicy];
@@ -302,7 +305,7 @@
             labelLocation.textColor = [UIColor grayColor];
             labelLocation.font = [UIFont systemFontOfSize:14];
             labelLocation.lineBreakMode = UILineBreakModeTailTruncation;
-            labelLocation.text = [NSString stringWithFormat:@"%@%@%", city, state];
+            labelLocation.text = [NSString stringWithFormat:@"%@%@", city, state];
             labelLocation.backgroundColor = [UIColor clearColor];
             labelLocation.tag = 3;
             
