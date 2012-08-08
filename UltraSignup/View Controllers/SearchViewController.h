@@ -12,8 +12,6 @@
 
 @interface SearchViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 {
-
-    
     NSMutableArray *_tempSearchData;
     NSMutableArray *_searchData;
         

@@ -103,9 +103,6 @@
     self.searchDisplayController.searchBar.tintColor = kUltraSignupColor;
     self.searchDisplayController.searchBar.showsScopeBar = NO; 
     
-    // give focus to search bar, which will also activate keyboard  
-    //TODO: not working
-    [self.searchDisplayController.searchBar becomeFirstResponder];
 }
 
 
@@ -124,9 +121,18 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    // check for selected row in table view
+    // (a row will be selected if the user clicked back to return to the search view)
     UITableViewCell *cell = (UITableViewCell *)[self.searchDisplayController.searchResultsTableView 
                                                 cellForRowAtIndexPath:self.searchDisplayController.searchResultsTableView.indexPathForSelectedRow];
     [cell setSelected:NO];
+    
+    if (!cell) {
+        // no previously selected table cell, so we must be here for first time
+        // give focus to search bar, which will also activate keyboard  
+        [self.searchDisplayController.searchBar becomeFirstResponder];        
+    }
+    
 }
 
 #pragma mark - Table view data source
