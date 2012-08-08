@@ -42,7 +42,7 @@
 }
 
 
-+ (NSString*)modifyHTML:(NSString*)html
++ (NSString*)modifyHTML:(NSString*)html fromURL:(NSString*)url
 {
     
     NSString *beginPattern = @"<!-- ===================== BEGIN DOCUMENT CONTENT ===================== -->";
@@ -86,14 +86,14 @@
     // this is a little ghetto - adding this here to make well-formed HTML, since when parsing out the articletools we left an extra close div tag
     htmlContent = [NSString stringWithFormat:@"<div>%@", htmlContent];
  
-    // TODO:  insert link to stylesheet for font, etc
+    // insert link to stylesheet for font, etc
+    // #9da039 is the same as kUltraSignupLightGreenColor
+    NSString *style = @"<style>*{font-family:Helvetica;font-size:11pt;} h1{font-size:16pt;color:#9da039;}</style>";
     
+    // insert link at bottom to article page on ultrasignup (will open in Safari)
+    NSString *externalLink = [NSString stringWithFormat:@"<p>Original article: <a href=\"%@\">%@</a></p>", url, url];
     
-    htmlContent = [NSString stringWithFormat:@"<style>*{font-family:Helvetica} h1{font-size:16pt;color:green}</style>%@", htmlContent];
-    
-    
-    // TODO:  insert link at bottom to article page on ultrasignup (will open in Safari)
-    
+    htmlContent = [NSString stringWithFormat:@"%@%@%@", style, htmlContent, externalLink];
     
     return htmlContent;    
 }
@@ -118,6 +118,7 @@
     [[self view] addSubview:webView];
     [webView release];
     
+    
     NSURL *url = [NSURL URLWithString:self.newsItem.url];
 
     ASIHTTPRequest *req = [ASIHTTPRequest requestWithURL:url];
@@ -140,7 +141,7 @@
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
-    NSString *html = [[self class] modifyHTML:[request responseString]];
+    NSString *html = [[self class] modifyHTML:[request responseString] fromURL:self.newsItem.url];
     [webView loadHTMLString:html baseURL:nil];        
 }
 

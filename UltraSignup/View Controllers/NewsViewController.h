@@ -25,6 +25,6 @@
 
 - (id)initWithNewsItem:(NewsItem *)item;
 
-+ (NSString*)modifyHTML:(NSString*)html;
++ (NSString*)modifyHTML:(NSString*)html fromURL:(NSString*)url;
 
 @end
